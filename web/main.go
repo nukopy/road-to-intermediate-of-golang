@@ -5,23 +5,27 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/nukopy/road-to-intermediate-of-golang/config"
 	"github.com/nukopy/road-to-intermediate-of-golang/handlers"
 )
 
 func main() {
 	// load config
+	log.Println("Loading config...")
 	cfg := config.New()
 
 	// register handlers
-	http.HandleFunc("/healthcheck", handlers.HealthcheckHandler)
-	http.HandleFunc("/article", handlers.PostArticleHandler)
-	http.HandleFunc("/article/list", handlers.GetArticlesHandler)
-	http.HandleFunc("/article/1", handlers.GetArticle1Handler)
-	http.HandleFunc("/article/nice", handlers.PostArticleNiceHandler)
-	http.HandleFunc("/comment", handlers.PostCommentHandler)
+	log.Println("Registering HTTP request handlers...")
+	r := mux.NewRouter()
+	r.HandleFunc("/healthcheck", handlers.HealthcheckHandler).Methods(http.MethodGet)
+	r.HandleFunc("/article", handlers.PostArticleHandler).Methods(http.MethodPost)
+	r.HandleFunc("/article/list", handlers.GetArticlesHandler).Methods(http.MethodGet)
+	r.HandleFunc("/article/{id:[0-9]+}", handlers.GetArticleDetailHandler).Methods(http.MethodGet)
+	r.HandleFunc("/article/nice", handlers.PostArticleNiceHandler).Methods(http.MethodPost)
+	r.HandleFunc("/comment", handlers.PostCommentHandler).Methods(http.MethodPost)
 
 	// start http server
 	log.Printf("Server start at port %d\n", cfg.PORT)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", cfg.PORT), nil))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", cfg.PORT), r))
 }
