@@ -1,0 +1,18 @@
+FROM golang:1.19
+
+ENV GOOS=linux
+ENV GOARCH=amd64
+ENV CGO_ENABLED=0
+ENV GO111MODULE=on
+
+WORKDIR /workdir
+
+# install dependencies
+COPY go.mod go.mod
+COPY go.sum go.sum
+RUN go mod download
+
+# run
+COPY . .
+EXPOSE 8888
+CMD ["go run main.go"]

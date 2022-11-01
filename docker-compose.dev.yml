@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: ./web
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./web:/workdir
+    env_file:
+      - ./web/.env.dev
+    command: "go run main.go"
+  # db:
+  #   build:
+  #     context: ./db
+  #     dockerfile: ./Dockerfile
