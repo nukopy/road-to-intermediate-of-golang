@@ -29,6 +29,7 @@ func PostArticleHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func GetArticlesHandler(w http.ResponseWriter, req *http.Request) {
+	// クエリパラメータの取得
 	qp := req.URL.Query()
 	// log.Printf("Query Params: %v\n", qp)
 
@@ -57,7 +58,9 @@ func GetArticlesHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func GetArticleDetailHandler(w http.ResponseWriter, req *http.Request) {
-	articleId, err := strconv.Atoi(mux.Vars(req)["id"])
+	// パスパラメータの取得
+	articleIdStr := mux.Vars(req)["id"]
+	articleId, err := strconv.Atoi(articleIdStr)
 	if err != nil {
 		// ルーティングの実装上ここには来ないはず
 		http.Error(w, "Invalid path parameter", http.StatusBadRequest)
