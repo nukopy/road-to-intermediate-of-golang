@@ -32,6 +32,30 @@
 - [ ] 第 11 章 context パッケージの導入
 - [ ] 第 12 章 ユーザー認証
 
+## 実行
+
+### Requirements
+
+- Go 1.19
+- Docker
+- Docker Compose
+
+### on Local
+
+- Web
+
+```sh
+cd road-to-intermediate-of-golang/web/
+go run main.go
+```
+
+### on Docker Compose
+
+```sh
+cd road-to-intermediate-of-golang/
+docker compose -f docker-compose.dev.yml up
+```
+
 ## References
 
 - [github.com/saki-engineering/go-intermediate](https://github.com/saki-engineering/go-intermediate)
